@@ -11,15 +11,11 @@ import java.util.List;
 @RequestMapping("/events")
 public class EventController {
 
+    private static List<String> events = new ArrayList<>();
+
     @GetMapping
     public String displayAllEvents(Model model) {
-        List<String> events = new ArrayList<>();
-        events.add("Gifted Writers Fall Classes");
-        events.add("Novel Neighbor Book Club - October 2023");
-        events.add("Rev. Dr. Amy Butler | Beautiful and Terrible Things");
-        events.add("Ethel Morgan Smith | Path to Grace");
         model.addAttribute("events", events);
-
         return "events/index";
 
     }
@@ -27,5 +23,11 @@ public class EventController {
     @GetMapping("/create")
     public String renderCreateEventForm() {
         return "events/create";
+    }
+
+    @PostMapping("/create")
+    public String createEvent(@RequestParam String eventName) {
+        events.add(eventName);
+        return "redirect:/events";
     }
 }
